@@ -1,0 +1,6 @@
+#!C:\Users\jainn\OneDrive\Documents\PGDBDA_Project\AquaPredict_CI\myenv\Scripts\python.exe
+
+from mlops.tensorflow.tools import main
+
+if __name__ == '__main__':
+  main()
