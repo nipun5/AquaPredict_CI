@@ -16,7 +16,7 @@ from mlflow.models import infer_signature
 
 import os
 # Load DagsHub token from environment variables
-dagshub_token = os.getenv("DAGSHUB_TOKEN")
+dagshub_token = "f1bc8f2f71568383b82e0ec42eb6bad23d3b1fa4"
 if not dagshub_token:
     raise EnvironmentError("DAGSHUB_TOKEN environment variable is not set")
 
