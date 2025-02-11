@@ -18,19 +18,29 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install dvc
+          pip install dvc dvc[s3]
+
+      - name: Configure DVC
+        env:
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
+        run: |
+          dvc remote modify --local origin auth basic
+          dvc remote modify --local origin user "${{ secrets.DAGSHUB_TOKEN }}"
+          dvc remote modify --local origin password "${{ secrets.DAGSHUB_TOKEN }}"
 
       - name: Run DVC pipeline
         env:
-          DAGSHUB_TOKEN: ${{secrets.DAGSHUB_TOKEN}}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          # Directly run the DVC pipeline without pulling
+          dvc pull
           dvc repro
+
       - name: Run model tests
         env:
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           python -m unittest tests/model_test.py
+
       - name: Promote model to production
         if: success()
         env:
